@@ -1,0 +1,75 @@
+{
+    "list": [
+        {
+            "nom_ressource": "Ardoises",
+            "created_at": "2024-11-14 17:40:55+00:00",
+            "updated_at": "2024-11-14 18:17:30+00:00",
+            "uuid": "15780f15-90ed-4588-ad13-afd152b63932",
+            "quantite_ressource": 25,
+            "unite_ressource": "m²",
+            "images": [
+                {
+                    "url": "https://app-diag.s3.gra.io.cloud.ovh.net/nc/uploads/noco/pa9fznjqss260cn/mh9nebymjhwmoex/col4do67uc0iw2r/Lousaval-Lv2-20x30-épaisse_46SYJ.jpg",
+                    "title": "Lousaval-Lv2-20x30-épaisse.jpg",
+                    "mimetype": "image/jpeg",
+                    "size": 352335,
+                    "width": 1620,
+                    "height": 1080,
+                    "id": "atc3yhvo8emaak6t",
+                    "thumbnails": {
+                        "tiny": {
+                            "signedUrl": "https://app-diag.s3.gra.io.cloud.ovh.net/nc/thumbnails/noco/pa9fznjqss260cn/mh9nebymjhwmoex/col4do67uc0iw2r/Lousaval-Lv2-20x30-%C3%A9paisse_46SYJ.jpg/tiny.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=a8266171d4774f3faeda4a4007484112%2F20241114%2Fgra%2Fs3%2Faws4_request&X-Amz-Date=20241114T181730Z&X-Amz-Expires=7350&X-Amz-Signature=ee58245d27b469e5f0d5715017d8a37ae2beab585f2365a565726cec5c73768c&X-Amz-SignedHeaders=host&response-content-disposition=inline%3B%20filename%3D%22Lousaval-Lv2-20x30-%C3%A9paisse.jpg%22&response-content-type=image%2Fjpeg&x-id=GetObject"
+                        },
+                        "small": {
+                            "signedUrl": "https://app-diag.s3.gra.io.cloud.ovh.net/nc/thumbnails/noco/pa9fznjqss260cn/mh9nebymjhwmoex/col4do67uc0iw2r/Lousaval-Lv2-20x30-%C3%A9paisse_46SYJ.jpg/small.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=a8266171d4774f3faeda4a4007484112%2F20241114%2Fgra%2Fs3%2Faws4_request&X-Amz-Date=20241114T181730Z&X-Amz-Expires=7350&X-Amz-Signature=20deeafcfec4035ac973a7ff1eab035dd3ad87e0e2e3527b41cdb1b106134dab&X-Amz-SignedHeaders=host&response-content-disposition=inline%3B%20filename%3D%22Lousaval-Lv2-20x30-%C3%A9paisse.jpg%22&response-content-type=image%2Fjpeg&x-id=GetObject"
+                        },
+                        "card_cover": {
+                            "signedUrl": "https://app-diag.s3.gra.io.cloud.ovh.net/nc/thumbnails/noco/pa9fznjqss260cn/mh9nebymjhwmoex/col4do67uc0iw2r/Lousaval-Lv2-20x30-%C3%A9paisse_46SYJ.jpg/card_cover.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=a8266171d4774f3faeda4a4007484112%2F20241114%2Fgra%2Fs3%2Faws4_request&X-Amz-Date=20241114T181730Z&X-Amz-Expires=7350&X-Amz-Signature=1c591e3826165b6c285eb931168837eec57cc61306dbb1a7ddec7da516550f90&X-Amz-SignedHeaders=host&response-content-disposition=inline%3B%20filename%3D%22Lousaval-Lv2-20x30-%C3%A9paisse.jpg%22&response-content-type=image%2Fjpeg&x-id=GetObject"
+                        }
+                    },
+                    "signedUrl": "https://app-diag.s3.gra.io.cloud.ovh.net/nc/uploads/noco/pa9fznjqss260cn/mh9nebymjhwmoex/col4do67uc0iw2r/Lousaval-Lv2-20x30-%C3%A9paisse_46SYJ.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=a8266171d4774f3faeda4a4007484112%2F20241114%2Fgra%2Fs3%2Faws4_request&X-Amz-Date=20241114T181730Z&X-Amz-Expires=7350&X-Amz-Signature=0834895fc992540418547cb4d1375c0ae792ee702d0d905bd831fda9811f2fd9&X-Amz-SignedHeaders=host&response-content-disposition=inline%3B%20filename%3D%22Lousaval-Lv2-20x30-%C3%A9paisse.jpg%22&response-content-type=image%2Fjpeg&x-id=GetObject"
+                }
+            ],
+            "types_id": "42517ca3-c8e8-4d05-b556-b19c0e23a8fe",
+            "masse_totale": 625,
+            "batiments_id": "c24e4130-319c-48f3-b498-ddb46f325f25",
+            "batiments": {
+                "uuid": "c24e4130-319c-48f3-b498-ddb46f325f25",
+                "nom_batiment": "Immeuble 1"
+            },
+            "types_associes": {
+                "uuid": "42517ca3-c8e8-4d05-b556-b19c0e23a8fe",
+                "nom_type": "Ardoises naturelles"
+            },
+            "masse_unitaire (from types)": 25
+        },
+        {
+            "nom_ressource": "Pierre",
+            "created_at": "2024-11-14 18:29:26+00:00",
+            "updated_at": "2024-11-14 18:29:56+00:00",
+            "uuid": "665fa9ee-605d-4647-a317-acf8d8370dcb",
+            "quantite_ressource": 250,
+            "unite_ressource": "m³",
+            "images": null,
+            "types_id": "03b420f5-3b96-4f07-94fd-afa0b23d0704",
+            "masse_totale": 130000,
+            "batiments_id": "c24e4130-319c-48f3-b498-ddb46f325f25",
+            "batiments": {
+                "uuid": "c24e4130-319c-48f3-b498-ddb46f325f25",
+                "nom_batiment": "Immeuble 1"
+            },
+            "types_associes": {
+                "uuid": "03b420f5-3b96-4f07-94fd-afa0b23d0704",
+                "nom_type": "Pierre bordelaise"
+            },
+            "masse_unitaire (from types)": 520
+        }
+    ],
+    "pageInfo": {
+        "totalRows": 2,
+        "page": 1,
+        "pageSize": 25,
+        "isFirstPage": true,
+        "isLastPage": true
+    }
+}
