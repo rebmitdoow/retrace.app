@@ -1,60 +1,42 @@
+//src/App.jsx
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 import "./App.css";
-import { fetchRessources } from "./services/api.js";
+import TableBatiment from "./pages/TableBatiment.jsx";
+import { HalfMoon, SunLight, InfoCircle } from "iconoir-react";
+import Layout from "./components/layout";
 
 function App() {
-  const [items, setItems] = useState([]);
-
-  const getItems = async () => {
-    try {
-      const fetchResponse = await fetchRessources();
-      const liste = fetchResponse.list;
-      console.log("liste", liste[0].nom_ressource);
-      setItems(fetchResponse.list);
-    } catch (error) {
-      console.error("Error fetching items:", error);
-    }
-  };
-
+  const [isDarkMode, setIsDarkMode] = useState(() => localStorage.getItem("theme") === "dark");
+  const toggleDarkMode = () => setIsDarkMode(!isDarkMode);
   useEffect(() => {
-    getItems();
-  }, []);
-
+    const rootElement = document.documentElement;
+    if (isDarkMode) {
+      rootElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    } else {
+      rootElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    }
+  }, [isDarkMode]);
   return (
-    <div className="container mx-auto">
-      <div className="overflow-x-auto">
-        <table className="min-w-full table-auto border-collapse">
-          <thead>
-            <tr>
-              <th className="px-4 py-2 border-b">Image</th>
-              <th className="px-4 py-2 border-b">Nom Ressource</th>
-              <th className="px-4 py-2 border-b">Quantité</th>
-              <th className="px-4 py-2 border-b">Unité</th>
-            </tr>
-          </thead>
-          <tbody>
-            {items.map((item, index) => (
-              <tr key={index}>
-                <td className="px-4 py-2 border-b">
-                  {item.images ? (
-                    <img
-                      src={item.images[0]?.thumbnails?.small?.signedUrl}
-                      alt={item.images[0]?.title}
-                      className="w-16 h-16 object-cover"
-                    />
-                  ) : (
-                    "No Image"
-                  )}
-                </td>
-                <td className="px-4 py-2 border-b">{item.nom_ressource}</td>
-                <td className="px-4 py-2 border-b">{item.quantite_ressource}</td>
-                <td className="px-4 py-2 border-b">{item.unite_ressource}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
+    <>
+      <Layout>
+        <Router>
+          <Routes>
+            <Route path="projet/:id" element={<TableBatiment />} />
+          </Routes>
+          <div className="fixed bottom-4 right-4 flex space-x-2 mx-3 my-3">
+            <button onClick={toggleDarkMode} className="p-2 rounded-full bg-gray-300 dark:bg-gray-700 shadow-lg">
+              {isDarkMode ? <SunLight /> : <HalfMoon />}
+            </button>
+            <button className="p-2 rounded-full bg-gray-300 dark:bg-gray-700 shadow-lg">
+              <InfoCircle />
+            </button>
+          </div>
+        </Router>
+      </Layout>
+    </>
   );
 }
 

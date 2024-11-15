@@ -11,12 +11,21 @@ const axiosInstance = axios.create({
   },
 });
 
-export const fetchRessources = async () => {
+export const fetchAllRessources = async () => {
   try {
     const response = await axiosInstance.get("/tables/mh9nebymjhwmoex/records?limit=25&shuffle=0&offset=0");
     return response.data;
   } catch (error) {
     console.error("Error fetching items:", error);
     throw error;
+  }}
+
+  export const getBatimentById = async (batiment_id) => {
+    try {
+      const response = await axiosInstance.get(`/tables/mjxxt0i2sssjxj7/records/${batiment_id}`);
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching items:", error);
+      throw error;
+    }
   }
-};
