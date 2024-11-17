@@ -5,6 +5,7 @@ import "./App.css";
 import TableRessources from "./pages/TableRessources.jsx";
 import { HalfMoon, SunLight, InfoCircle } from "iconoir-react";
 import Layout from "./components/layout";
+import TableProjets from "./pages/TableProjets";
 
 function App() {
   const [isDarkMode, setIsDarkMode] = useState(() => localStorage.getItem("theme") === "dark");
@@ -24,17 +25,18 @@ function App() {
       <Layout>
         <Router>
           <Routes>
-            <Route path="projet/:idBat" element={<TableRessources />} />
+            <Route path="ressources/:idBat" element={<TableRessources />} />
+            <Route path="projets" element={<TableProjets />} />
           </Routes>
-          <div className="fixed bottom-4 right-4 flex space-x-2 mx-3 my-3">
-            <button onClick={toggleDarkMode} className="p-2 rounded-full shadow-lg">
-              {isDarkMode ? <SunLight /> : <HalfMoon />}
-            </button>
-            <button className="p-2 rounded-full shadow-lg">
-              <InfoCircle />
-            </button>
-          </div>
         </Router>
+        <div className="fixed bottom-4 right-4 flex space-x-2 mx-3 my-3">
+          <button onClick={toggleDarkMode} className="p-2 rounded-full shadow-lg">
+            {isDarkMode ? <SunLight /> : <HalfMoon />}
+          </button>
+          <button className="p-2 rounded-full shadow-lg">
+            <InfoCircle />
+          </button>
+        </div>
       </Layout>
     </>
   );

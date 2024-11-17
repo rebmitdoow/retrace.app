@@ -16,7 +16,7 @@ import {
 const items = [
   {
     title: "Projets",
-    url: "#",
+    url: "/projets",
     icon: City,
   },
   {
