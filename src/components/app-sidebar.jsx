@@ -1,3 +1,4 @@
+//src/component/ui/app-sidebar.jsx
 import React from "react";
 import { Calendar, Home, Inbox, Settings } from "lucide-react";
 import { SunLight } from "iconoir-react";
@@ -6,10 +7,10 @@ import {
   SidebarContent,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarHeader,
 } from "@/components/ui/sidebar";
 
 // Menu items.
@@ -43,20 +44,21 @@ const items = [
 
 export function AppSidebar() {
   return (
-    <Sidebar>
+    <Sidebar> {/* the css doesnt work */}
+      <SidebarHeader className="text-3xl m-2 lg:text-5xl font-mono font-black">
+            Retrace
+      </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel className="text-3xl m-2 lg:text-5xl font-mono text-slate-900 font-black">
-            Retrace
-          </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <a href={item.url} className="">
-                      {React.createElement(item.icon, { width: "3em", height: "3em" })} {/* <- this doesnt do anything */}
-                      <span className="text-slate-900">{item.title}</span>
+                      {React.createElement(item.icon, { width: "3em", height: "3em" })}{" "}
+                      {/* <- this doesnt do anything */}
+                      <span>{item.title}</span>
                     </a>
                   </SidebarMenuButton>
                 </SidebarMenuItem>

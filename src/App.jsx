@@ -27,10 +27,10 @@ function App() {
             <Route path="projet/:id" element={<TableBatiment />} />
           </Routes>
           <div className="fixed bottom-4 right-4 flex space-x-2 mx-3 my-3">
-            <button onClick={toggleDarkMode} className="p-2 rounded-full bg-gray-300 dark:bg-gray-700 shadow-lg">
+            <button onClick={toggleDarkMode} className="p-2 rounded-full shadow-lg">
               {isDarkMode ? <SunLight /> : <HalfMoon />}
             </button>
-            <button className="p-2 rounded-full bg-gray-300 dark:bg-gray-700 shadow-lg">
+            <button className="p-2 rounded-full shadow-lg">
               <InfoCircle />
             </button>
           </div>
