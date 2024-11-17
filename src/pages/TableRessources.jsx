@@ -1,44 +1,45 @@
 import { useState, useEffect } from "react";
 import "../App.css";
-import { fetchAllRessources, getBatimentById } from "../services/api";
+import { fetchRessFromBat, getBatimentById, getRessourceById } from "../services/api";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 import { useParams } from "react-router-dom";
 
-function TableBatiment() {
+function TableRessources() {
   const [items, setItems] = useState([]);
   const [nomBatiment, setNomBatiment] = useState("");
 
-  const { id } = useParams();
-
-  const getItems = async () => {
-    try {
-      const fetchResponse = await fetchAllRessources();
-      const liste = fetchResponse.list;
-      console.log("liste", liste[0].nom_ressource);
-      setItems(fetchResponse.list);
-    } catch (error) {
-      console.error("Error fetching items:", error);
-    }
-  };
-
-  const getBatimentName = async (id) => {
-    try {
-      const fetchResponse = await getBatimentById(id);
-      const nomBat = fetchResponse.nom_batiment;
-      console.log("bat", nomBat);
-      setNomBatiment(nomBat);
-    } catch (error) {
-      console.error("Error fetching items:", error);
-    }
-  };
+  const { idBat } = useParams();
 
   useEffect(() => {
-    if (id) {
-      getBatimentName(id);
-    }
-    getItems();
-  }, [id]);
+    const fetchData = async () => {
+      try {
+        const fetchResponse = await fetchRessFromBat(idBat);
+        const liste = fetchResponse.list;
+        const promises = liste.map((item) => getRessourceById(item.uuid));
+        const resolvedRessources = await Promise.all(promises);
+        setItems(resolvedRessources);
+      } catch (error) {
+        console.error("Error fetching items:", error);
+      }
+    };
+
+    fetchData();
+  }, [idBat]);
+
+  useEffect(() => {
+    const getBatimentName = async (idBat) => {
+      try {
+        const fetchResponse = await getBatimentById(idBat);
+        const nomBat = fetchResponse.nom_batiment;
+        console.log("bat", nomBat);
+        setNomBatiment(nomBat);
+      } catch (error) {
+        console.error("Error fetching items:", error);
+      }
+    };
+    getBatimentName(idBat);
+  }, [idBat]);
 
   return (
     <div className="min-h-screen">
@@ -47,15 +48,9 @@ function TableBatiment() {
         <Table className="min-w-full table-auto border-collapse">
           <TableHeader>
             <TableRow>
-              <TableHead className="px-4 text-lg py-2 text-center border-b-2">
-                Image
-              </TableHead>
-              <TableHead className="px-4 text-lg py-2 text-center border-b-2">
-                Nom de la ressource
-              </TableHead>
-              <TableHead className="px-4 text-lg py-2 text-center border-b-2">
-                Quantité
-              </TableHead>
+              <TableHead className="px-4 text-lg py-2 text-center border-b-2">Image</TableHead>
+              <TableHead className="px-4 text-lg py-2 text-center border-b-2">Nom de la ressource</TableHead>
+              <TableHead className="px-4 text-lg py-2 text-center border-b-2">Quantité</TableHead>
               <TableHead className="px-4 text-lg py-2 text-center border-b-2 hidden sm:table-cell">
                 Masse totale
               </TableHead>
@@ -103,4 +98,4 @@ function TableBatiment() {
   );
 }
 
-export default TableBatiment;
+export default TableRessources;

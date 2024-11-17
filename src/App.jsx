@@ -2,7 +2,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 import "./App.css";
-import TableBatiment from "./pages/TableBatiment.jsx";
+import TableRessources from "./pages/TableRessources.jsx";
 import { HalfMoon, SunLight, InfoCircle } from "iconoir-react";
 import Layout from "./components/layout";
 
@@ -24,7 +24,7 @@ function App() {
       <Layout>
         <Router>
           <Routes>
-            <Route path="projet/:id" element={<TableBatiment />} />
+            <Route path="projet/:idBat" element={<TableRessources />} />
           </Routes>
           <div className="fixed bottom-4 right-4 flex space-x-2 mx-3 my-3">
             <button onClick={toggleDarkMode} className="p-2 rounded-full shadow-lg">
