@@ -13,6 +13,9 @@ import {
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import { useEffect, useState } from "react";
+import { fetchAllBat } from "@/services/api";
+import DialogDemo from "@/components/Modal";
 
 const columns = [
   {
@@ -35,33 +38,30 @@ const columns = [
     enableHiding: false,
   },
   {
-    accessorKey: "status",
-    header: "Statut",
-    cell: ({ row }) => <div className="capitalize">{row.getValue("status")}</div>,
-  },
-  {
-    accessorKey: "email",
+    accessorKey: "nom_batiment",
+    enableHiding: false,
     header: ({ column }) => {
       return (
         <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-          Email
+          Nom bâtiment
           <ArrowUpDown />
         </Button>
       );
     },
-    cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
+    cell: ({ row }) => <div className="capitalize">{row.getValue("nom_batiment")}</div>,
   },
   {
-    accessorKey: "amount",
-    header: () => <div className="text-right">Amount</div>,
+    accessorKey: "adresse_batiment",
+    header: "Adresse",
+    cell: ({ row }) => <div>{row.getValue("adresse_batiment")}</div>,
+  },
+  {
+    accessorKey: "surface_batiment",
+    header: () => <div className="text-right">Surface</div>,
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"));
-      const formatted = new Intl.NumberFormat("fr-FR", {
-        style: "currency",
-        currency: "EUR",
-      }).format(amount);
-
-      return <div className="text-right font-medium">{formatted}</div>;
+      const amount = parseFloat(row.getValue("surface_batiment"));
+      const formatted = new Intl.NumberFormat().format(amount);
+      return <div className="text-right font-medium">{formatted} m²</div>;
     },
   },
   {
@@ -93,41 +93,28 @@ const columns = [
   },
 ];
 
-const data = [
-  {
-    id: "m5gr84i9",
-    amount: 316,
-    status: "success",
-    email: "ken99@yahoo.com",
-  },
-  {
-    id: "3u1reuv4",
-    amount: 242,
-    status: "success",
-    email: "Abe45@gmail.com",
-  },
-  {
-    id: "derv1ws0",
-    amount: 837,
-    status: "processing",
-    email: "Monserrat44@gmail.com",
-  },
-  {
-    id: "5kma53ae",
-    amount: 874,
-    status: "success",
-    email: "Silas22@gmail.com",
-  },
-  {
-    id: "bhqecj4p",
-    amount: 721,
-    status: "failed",
-    email: "carmella@hotmail.com",
-  },
-];
-
 function TableProjets() {
-  return <DataTable data={data} columns={columns}></DataTable>;
+  const [projets, setProjets] = useState([]);
+
+  useEffect(() => {
+    const getBatimentList = async () => {
+      try {
+        const fetchResponse = await fetchAllBat();
+        const listeBat = fetchResponse.list;
+        setProjets(listeBat);
+      } catch (error) {
+        console.error("Error fetching items:", error);
+      }
+    };
+    getBatimentList();
+  }, []);
+
+  return (
+    <>
+      <DataTable data={projets} columns={columns}></DataTable>
+      <DialogDemo />
+    </>
+  );
 }
 
 export default TableProjets;

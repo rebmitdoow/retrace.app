@@ -51,8 +51,8 @@ export function DataTable({ data, columns }) {
       <div className="flex items-center py-4">
         <Input
           placeholder="Filtrer par nom..."
-          value={table.getColumn("status")?.getFilterValue() ?? ""}
-          onChange={(event) => table.getColumn("status")?.setFilterValue(event.target.value)}
+          value={table.getColumn("nom_batiment")?.getFilterValue() ?? ""}
+          onChange={(event) => table.getColumn("nom_batiment")?.setFilterValue(event.target.value)}
           className="max-w-sm"
         />
         <DropdownMenu>
@@ -116,7 +116,8 @@ export function DataTable({ data, columns }) {
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
         <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} lignes(s) sélectionnées sur {table.getFilteredRowModel().rows.length}
+          {table.getFilteredSelectedRowModel().rows.length} lignes(s) sélectionnée(s) sur{" "}
+          {table.getFilteredRowModel().rows.length}
         </div>
         <div className="space-x-2">
           <Button

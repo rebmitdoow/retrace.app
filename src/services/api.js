@@ -20,6 +20,15 @@ export const fetchAllRessources = async () => {
     throw error;
   }}
 
+  export const fetchAllBat = async () => {
+    try {
+      const response = await axiosInstance.get("/tables/mjxxt0i2sssjxj7/records");
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching items:", error);
+      throw error;
+    }}
+
   export const fetchRessFromBat = async (batiment_id) => {
     try {
       const response = await axiosInstance.get(`/tables/mjxxt0i2sssjxj7/links/ceqcjari6vzgp9a/records/${batiment_id}`);
