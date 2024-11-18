@@ -1,6 +1,3 @@
-/* import { useState, useEffect } from "react";
-import "../App.css";
-import { fetchRessFromBat, getBatimentById, getRessourceById } from "../services/api"; */
 import { DataTable } from "@/components/DataTable";
 import {
   DropdownMenu,
@@ -15,7 +12,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { useEffect, useState } from "react";
 import { fetchAllBat } from "@/services/api";
-import DialogDemo from "@/components/Modal";
+import ModalModifBat from "@/components/Modal";
 
 const columns = [
   {
@@ -65,6 +62,19 @@ const columns = [
     },
   },
   {
+    accessorKey: "uuid",
+    enableHiding: false,
+    header: () => <div className="text-right">Actions</div>,
+    cell: ({ row }) => {
+      var id = row.getValue("uuid");
+      return (
+        <div className="text-right">
+          <ModalModifBat bat_id={id} />
+        </div>
+      );
+    },
+  },
+  {
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
@@ -111,8 +121,8 @@ function TableProjets() {
 
   return (
     <>
+      <h1 className="text-3xl font-bold">Projets</h1>
       <DataTable data={projets} columns={columns}></DataTable>
-      <DialogDemo />
     </>
   );
 }

@@ -20,6 +20,7 @@ function App() {
       localStorage.setItem("theme", "light");
     }
   }, [isDarkMode]);
+  
   return (
     <>
       <Layout>
