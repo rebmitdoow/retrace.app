@@ -20,6 +20,11 @@ const items = [
     icon: City,
   },
   {
+    title: "Ressources",
+    url: "/ressources",
+    icon: City,
+  },
+  {
     title: "Settings",
     url: "#",
     icon: Settings,

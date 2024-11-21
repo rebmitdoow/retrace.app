@@ -13,6 +13,7 @@ import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { useEffect, useState } from "react";
 import { fetchAllBat } from "@/services/api";
 import ModalModifBat from "@/components/Modal";
+import { Link } from "react-router-dom";
 
 const columns = [
   {
@@ -45,7 +46,11 @@ const columns = [
         </Button>
       );
     },
-    cell: ({ row }) => <div className="capitalize">{row.getValue("nom_batiment")}</div>,
+    cell: ({ row }) => (
+      <Link className="capitalize" to={`/ressources/${row.original._id}`}>
+        {row.getValue("nom_batiment")}
+      </Link>
+    ),
   },
   {
     accessorKey: "adresse_batiment",
@@ -122,7 +127,7 @@ function TableProjets() {
   return (
     <>
       <h1 className="text-3xl font-bold">Projets</h1>
-      <DataTable data={projets} columns={columns}></DataTable>
+      <DataTable data={projets} columns={columns} columnToFilter="nom_batiment"></DataTable>
     </>
   );
 }

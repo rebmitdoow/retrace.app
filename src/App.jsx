@@ -26,7 +26,7 @@ function App() {
       <Layout>
         <Router>
           <Routes>
-            <Route path="ressources/:idBat" element={<TableRessources />} />
+            <Route path="ressources/:batId" element={<TableRessources />} />
             <Route path="projets" element={<TableProjets />} />
           </Routes>
         </Router>

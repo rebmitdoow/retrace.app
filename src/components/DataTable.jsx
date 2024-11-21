@@ -21,7 +21,7 @@ import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { ArrowLeft, ArrowRight } from "iconoir-react";
 
-export function DataTable({ data, columns }) {
+export function DataTable({ data, columns, columnToFilter }) {
   const [sorting, setSorting] = useState([]);
   const [columnFilters, setColumnFilters] = useState([]);
   const [columnVisibility, setColumnVisibility] = useState({});
@@ -30,6 +30,7 @@ export function DataTable({ data, columns }) {
   const table = useReactTable({
     data,
     columns,
+    columnToFilter,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
@@ -51,8 +52,8 @@ export function DataTable({ data, columns }) {
       <div className="flex items-center py-4">
         <Input
           placeholder="Filtrer par nom..."
-          value={table.getColumn("nom_batiment")?.getFilterValue() ?? ""}
-          onChange={(event) => table.getColumn("nom_batiment")?.setFilterValue(event.target.value)}
+          value={table.getColumn(columnToFilter)?.getFilterValue() ?? ""}
+          onChange={(event) => table.getColumn(columnToFilter)?.setFilterValue(event.target.value)}
           className="max-w-sm"
         />
         <DropdownMenu>
@@ -69,7 +70,7 @@ export function DataTable({ data, columns }) {
                 return (
                   <DropdownMenuCheckboxItem
                     key={column.id}
-                    className="capitalize"
+                    /* className="capitalize" */
                     checked={column.getIsVisible()}
                     onCheckedChange={(value) => column.toggleVisibility(!!value)}
                   >
@@ -146,4 +147,5 @@ DataTable.propTypes = {
       cell: PropTypes.func,
     })
   ).isRequired,
+  columnToFilter: PropTypes.string,
 };
