@@ -14,8 +14,9 @@ import { useEffect, useState } from "react";
 import { getBatimentById, updateBatiment } from "@/services/api";
 import { AlertCircle, CheckCircle } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from "@/components/ui/select";
 
-export default function ModalModifBat(bat_id) {
+export default function ModalModifBat({ bat_id }) {
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -24,11 +25,9 @@ export default function ModalModifBat(bat_id) {
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Modifier</DialogTitle>
-          <DialogDescription>
-           Mettre à jour les informations du bâtiment
-          </DialogDescription>
+          <DialogDescription>Mettre à jour les informations du bâtiment</DialogDescription>
         </DialogHeader>
-        <FormModifBat id={bat_id.bat_id} />
+        <FormModifBat id={bat_id} />
       </DialogContent>
     </Dialog>
   );
@@ -39,10 +38,10 @@ ModalModifBat.propTypes = {
 
 export function FormModifBat({ id }) {
   const [formData, setFormData] = useState({
-    uuid: id,
-    nom_batiment: "",
+    nom_projet: "",
     adresse_batiment: "",
-    surface_batiment: "",
+    surface_batiment: 0,
+    type_batiment: "",
   });
   const [updateStatus, setUpdateStatus] = useState("");
 
@@ -50,13 +49,13 @@ export function FormModifBat({ id }) {
     const getBatimentData = async (id) => {
       try {
         const fetchResponse = await getBatimentById(id);
+        console.log("fetchResponse", fetchResponse);
         setFormData({
-          uuid: fetchResponse.uuid,
-          nom_batiment: fetchResponse.nom_batiment || "",
-          adresse_batiment: fetchResponse.adresse_batiment || "",
-          surface_batiment: fetchResponse.surface_batiment || "",
+          nom_projet: fetchResponse[0].nom_projet || "",
+          adresse_batiment: fetchResponse[0].adresse_batiment || "",
+          type_batiment: fetchResponse[0].type_batiment || "",
+          surface_batiment: parseFloat(fetchResponse[0].surface_batiment?.$numberDecimal) || 0,
         });
-        console.log("bat", fetchResponse);
       } catch (error) {
         console.error("Error fetching items:", error);
       }
@@ -72,11 +71,23 @@ export function FormModifBat({ id }) {
     }));
   };
 
+  const handleSelectChange = (value) => {
+    setFormData((prev) => ({
+      ...prev,
+      type_batiment: value,
+    }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("formData", formData);
+    const updatedFormData = {
+      ...formData,
+      surface_batiment: formData.surface_batiment.toString(),
+    };
+    console.log("updatedFormData", updatedFormData);
+    console.log("id", id);
     try {
-      await updateBatiment(formData);
+      await updateBatiment(id, updatedFormData);
       setUpdateStatus(<AlertSucces />);
     } catch (error) {
       console.error("Error updating batiment:", error);
@@ -87,13 +98,13 @@ export function FormModifBat({ id }) {
   return (
     <form onSubmit={handleSubmit} className="grid gap-4 py-4">
       <div className="grid grid-cols-4 items-center gap-4">
-        <Label htmlFor="name" className="text-right">
+        <Label htmlFor="nom_projet" className="text-right">
           Nom du bâtiment
         </Label>
-        <Input id="nom_batiment" value={formData.nom_batiment} onChange={handleInputChange} className="col-span-3" />
+        <Input id="nom_projet" value={formData.nom_projet} onChange={handleInputChange} className="col-span-3" />
       </div>
       <div className="grid grid-cols-4 items-center gap-4">
-        <Label htmlFor="name" className="text-right">
+        <Label htmlFor="adresse_batiment" className="text-right">
           Adresse
         </Label>
         <Input
@@ -104,7 +115,7 @@ export function FormModifBat({ id }) {
         />
       </div>
       <div className="grid grid-cols-4 items-center gap-4">
-        <Label htmlFor="name" className="text-right">
+        <Label htmlFor="surface_batiment" className="text-right">
           Surface de plancher
         </Label>
         <Input
@@ -114,6 +125,21 @@ export function FormModifBat({ id }) {
           onChange={handleInputChange}
           className="col-span-3"
         />
+      </div>
+      <div className="grid grid-cols-4 items-center gap-4">
+        <Label htmlFor="type_batiment" className="text-right">
+          Type de bâtiment
+        </Label>
+        <Select id="type_batiment" value={formData.type_batiment} onValueChange={handleSelectChange}>
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Type de bâtiment" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="logement">Logement</SelectItem>
+            <SelectItem value="bureaux">Bureaux</SelectItem>
+            <SelectItem value="industriel">Industriel</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
       <div className="grid grid-cols-2 items-center gap-4">
         <span>{updateStatus}</span>

@@ -6,16 +6,7 @@ const mongodb = axios.create({
   baseURL: MD_API_URL,
 });
 
-const NC_API_URL = "https://app.retrace.fr/api/v2";
-const nocodb = axios.create({
-  baseURL: NC_API_URL,
-  headers: {
-    "xc-token": "XPrCTgJ_kQRK5nkvoHwnSCSnVpXfoHQWl6vQ3T2W",
-    "Content-Type": "application/json",
-  },
-});
-
-export const fetchAllRessourcesMD = async () => {
+export const fetchAllRessources = async () => {
   try {
     const response = await mongodb.get("/items");
     return response;
@@ -25,20 +16,10 @@ export const fetchAllRessourcesMD = async () => {
   }
 };
 
-export const fetchAllRessources = async () => {
-  try {
-    const response = await nocodb.get("/tables/mh9nebymjhwmoex/records");
-    return response.data;
-  } catch (error) {
-    console.error("Error fetching items:", error);
-    throw error;
-  }
-};
-
 export const fetchAllBat = async () => {
   try {
-    const response = await nocodb.get("/tables/mjxxt0i2sssjxj7/records");
-    return response.data;
+    const response = await mongodb.get("/batiments");
+    return response;
   } catch (error) {
     console.error("Error fetching items:", error);
     throw error;
@@ -47,18 +28,8 @@ export const fetchAllBat = async () => {
 
 export const fetchRessFromBat = async (batiment_id) => {
   try {
-    const response = await nocodb.get(`/tables/mjxxt0i2sssjxj7/links/ceqcjari6vzgp9a/records/${batiment_id}`);
-    return response.data;
-  } catch (error) {
-    console.error("Error fetching items:", error);
-    throw error;
-  }
-};
-
-export const fetchRessFromBatMD = async (batiment_id) => {
-  try {
     const response = await mongodb.get(`/itemsFromBat/${batiment_id}`);
-    console.log("response", response.data);
+    /*  console.log("response", response.data); */
     return response.data;
   } catch (error) {
     console.error("Error fetching items:", error);
@@ -68,17 +39,7 @@ export const fetchRessFromBatMD = async (batiment_id) => {
 
 export const getBatimentById = async (batiment_id) => {
   try {
-    const response = await nocodb.get(`/tables/mjxxt0i2sssjxj7/records/${batiment_id}`);
-    return response.data;
-  } catch (error) {
-    console.error("Error fetching items:", error);
-    throw error;
-  }
-};
-
-export const updateBatiment = async (bat_data) => {
-  try {
-    const response = await nocodb.patch(`/tables/mjxxt0i2sssjxj7/records`, bat_data);
+    const response = await mongodb.get(`/batiment/${batiment_id}`);
     return response.data;
   } catch (error) {
     console.error("Error fetching items:", error);
@@ -88,7 +49,31 @@ export const updateBatiment = async (bat_data) => {
 
 export const getRessourceById = async (ressource_id) => {
   try {
-    const response = await nocodb.get(`/tables/mh9nebymjhwmoex/records/${ressource_id}`);
+    const response = await mongodb.get(`/ressource/${ressource_id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching items:", error);
+    throw error;
+  }
+};
+
+export const updateBatiment = async (id, bat_data) => {
+  /* console.log("id in API", id);
+  console.log("bat_data in API", bat_data); */
+  try {
+    const response = await mongodb.put(`/batiment/${id}`, bat_data);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching items:", error);
+    throw error;
+  }
+};
+
+export const updateRessource = async (id, ress_data) => {
+  /* console.log("id in API", id);
+  console.log("bat_data in API", ress_data); */
+  try {
+    const response = await mongodb.put(`/ressource/${id}`, ress_data);
     return response.data;
   } catch (error) {
     console.error("Error fetching items:", error);

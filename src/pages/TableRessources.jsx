@@ -11,8 +11,9 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { useEffect, useState } from "react";
-import { fetchRessFromBatMD } from "@/services/api";
+import { fetchRessFromBat } from "@/services/api";
 import { useParams } from "react-router-dom";
+import ModalModifRess from "@/components/ModalModifRess";
 
 const columnsRessources = [
   {
@@ -45,14 +46,14 @@ const columnsRessources = [
         </Button>
       );
     },
-    cell: ({ row }) => <div className="capitalize">{row.getValue("nom_ressource")}</div>,
+    cell: ({ row }) => <div className="text-center capitalize">{row.getValue("nom_ressource")}</div>,
   },
   {
     id: "Type de ressource",
     header: "Type de ressource",
     cell: ({ row }) => {
-      const typeName = row.original?.type_details?.nom_type || "N/A";
-      return <div>{typeName}</div>;
+      const typeName = row.original?.type_ressource?.nom_type || "N/A";
+      return <div className="text-center">{typeName}</div>;
     },
   },
   {
@@ -60,7 +61,7 @@ const columnsRessources = [
     header: "Quantité",
     cell: ({ row }) => {
       const quantiteRaw = row.original?.quantite_ressource;
-      const unite = row.original?.type_details?.unite_type || "";
+      const unite = row.original?.type_ressource?.unite_type || "";
       const quantite =
         typeof quantiteRaw === "object" && quantiteRaw?.$numberDecimal
           ? parseFloat(quantiteRaw.$numberDecimal)
@@ -69,8 +70,21 @@ const columnsRessources = [
       const formatted = !isNaN(quantite) ? new Intl.NumberFormat().format(quantite) : "N/A";
 
       return (
-        <div className="text-right font-medium">
+        <div className="text-center font-medium">
           {formatted} {unite}
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: "_id",
+    enableHiding: false,
+    header: () => <div className="text-center">Actions</div>,
+    cell: ({ row }) => {
+      var id = row.getValue("_id");
+      return (
+        <div className="text-center">
+          <ModalModifRess ress_id={id} />
         </div>
       );
     },
@@ -106,15 +120,17 @@ const columnsRessources = [
 
 function TableRessources() {
   const [ressources, setRessources] = useState([]);
+  const [nomProjet, setNomProjet] = useState("");
   const { batId } = useParams();
 
   useEffect(() => {
     const getRessourcesList = async (batId) => {
       try {
-        const fetchResponse = await fetchRessFromBatMD(batId);
+        const fetchResponse = await fetchRessFromBat(batId);
         const listeRessources = fetchResponse;
-        console.log("listeRessources", listeRessources);
+        /* console.log("listeRessources", listeRessources); */
         setRessources(listeRessources);
+        setNomProjet(listeRessources[0].batiment_source.nom_projet);
       } catch (error) {
         console.error("Error fetching items:", error);
       }
@@ -124,7 +140,7 @@ function TableRessources() {
 
   return (
     <>
-      <h1 className="text-3xl font-bold">Ressources</h1>
+      <h1 className="text-5xl font-bold">{nomProjet}</h1>
       <DataTable data={ressources} columns={columnsRessources} columnToFilter="nom_ressource"></DataTable>
     </>
   );

@@ -20,13 +20,15 @@ function App() {
       localStorage.setItem("theme", "light");
     }
   }, [isDarkMode]);
-  
+
   return (
     <>
       <Layout>
         <Router>
           <Routes>
-            <Route path="ressources/:batId" element={<TableRessources />} />
+            <Route path="ressources">
+              <Route path=":batId" element={<TableRessources />} />
+            </Route>
             <Route path="projets" element={<TableProjets />} />
           </Routes>
         </Router>

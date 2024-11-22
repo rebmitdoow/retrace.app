@@ -12,7 +12,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { useEffect, useState } from "react";
 import { fetchAllBat } from "@/services/api";
-import ModalModifBat from "@/components/Modal";
+import ModalModifBat from "@/components/ModalModifBat";
 import { Link } from "react-router-dom";
 
 const columns = [
@@ -36,7 +36,7 @@ const columns = [
     enableHiding: false,
   },
   {
-    accessorKey: "nom_batiment",
+    accessorKey: "nom_projet",
     enableHiding: false,
     header: ({ column }) => {
       return (
@@ -47,33 +47,40 @@ const columns = [
       );
     },
     cell: ({ row }) => (
-      <Link className="capitalize" to={`/ressources/${row.original._id}`}>
-        {row.getValue("nom_batiment")}
+      <Link className="capitalize" to={`../ressources/${row.original._id}`}>
+        <div className="text-center">{row.getValue("nom_projet")}</div>
       </Link>
     ),
   },
   {
     accessorKey: "adresse_batiment",
     header: "Adresse",
-    cell: ({ row }) => <div>{row.getValue("adresse_batiment")}</div>,
+    cell: ({ row }) => <div className="text-center">{row.getValue("adresse_batiment")}</div>,
   },
   {
-    accessorKey: "surface_batiment",
-    header: () => <div className="text-right">Surface</div>,
+    id: "Surface bâtiment",
+    header: "Surface bâtiment",
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("surface_batiment"));
-      const formatted = new Intl.NumberFormat().format(amount);
-      return <div className="text-right font-medium">{formatted} m²</div>;
+      const surfaceRaw = row.original?.surface_batiment;
+      const surface =
+        typeof surfaceRaw === "object" && surfaceRaw?.$numberDecimal
+          ? parseFloat(surfaceRaw.$numberDecimal)
+          : parseFloat(surfaceRaw);
+
+      const formatted = !isNaN(surface) ? new Intl.NumberFormat().format(surface) : "N/A";
+
+      return <div className="text-center font-medium">{formatted} m²</div>;
     },
   },
   {
-    accessorKey: "uuid",
+    accessorKey: "_id",
     enableHiding: false,
-    header: () => <div className="text-right">Actions</div>,
+    header: () => <div className="text-center">Actions</div>,
     cell: ({ row }) => {
-      var id = row.getValue("uuid");
+      var id = row.getValue("_id");
+      /* console.log("id in table", id); */
       return (
-        <div className="text-right">
+        <div className="text-center">
           <ModalModifBat bat_id={id} />
         </div>
       );
@@ -115,7 +122,7 @@ function TableProjets() {
     const getBatimentList = async () => {
       try {
         const fetchResponse = await fetchAllBat();
-        const listeBat = fetchResponse.list;
+        const listeBat = fetchResponse.data;
         setProjets(listeBat);
       } catch (error) {
         console.error("Error fetching items:", error);
@@ -127,7 +134,7 @@ function TableProjets() {
   return (
     <>
       <h1 className="text-3xl font-bold">Projets</h1>
-      <DataTable data={projets} columns={columns} columnToFilter="nom_batiment"></DataTable>
+      <DataTable data={projets} columns={columns} columnToFilter="nom_projet"></DataTable>
     </>
   );
 }

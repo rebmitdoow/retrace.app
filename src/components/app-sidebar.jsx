@@ -16,12 +16,7 @@ import {
 const items = [
   {
     title: "Projets",
-    url: "/projets",
-    icon: City,
-  },
-  {
-    title: "Ressources",
-    url: "/ressources",
+    url: "../projets",
     icon: City,
   },
   {
