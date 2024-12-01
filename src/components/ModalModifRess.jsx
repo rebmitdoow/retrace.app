@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 import { getRessourceById, updateRessource } from "@/services/api";
 import { AlertCircle, CheckCircle } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import SelectType from "./SelectType";
 
 export default function ModalModifRess({ ress_id }) {
   return (
@@ -39,6 +40,7 @@ export function FormModifRess({ id_ress }) {
   const [formData, setFormData] = useState({
     nom_ressource: "",
     quantite_ressource: 0,
+    type_ressource: "",
   });
   const [updateStatus, setUpdateStatus] = useState("");
 
@@ -50,6 +52,7 @@ export function FormModifRess({ id_ress }) {
         setFormData({
           nom_ressource: fetchResponse[0].nom_ressource || "",
           quantite_ressource: parseFloat(fetchResponse[0].quantite_ressource?.$numberDecimal) || 0,
+          type_ressource: fetchResponse[0].type_ressource || "",
         });
       } catch (error) {
         console.error("Error fetching items:", error);
@@ -58,8 +61,7 @@ export function FormModifRess({ id_ress }) {
     getRessourceData(id_ress);
   }, [id_ress]);
 
-  const handleInputChange = (e) => {
-    const { id, value } = e.target;
+  const handleInputChange = ({ id, value }) => {
     setFormData((prev) => ({
       ...prev,
       [id]: value,
@@ -73,7 +75,6 @@ export function FormModifRess({ id_ress }) {
       quantite_ressource: formData.quantite_ressource.toString(),
     };
     console.log("updatedFormData", updatedFormData);
-    /* console.log("id", id_ress); */
     try {
       await updateRessource(id_ress, updatedFormData);
       setUpdateStatus(<AlertSucces />);
@@ -89,7 +90,12 @@ export function FormModifRess({ id_ress }) {
         <Label htmlFor="nom_ressource" className="text-right">
           Nom ressource
         </Label>
-        <Input id="nom_ressource" value={formData.nom_ressource} onChange={handleInputChange} className="col-span-3" />
+        <Input
+          id="nom_ressource"
+          value={formData.nom_ressource}
+          onChange={(e) => handleInputChange({ id: "nom_ressource", value: e.target.value })}
+          className="col-span-3"
+        />
       </div>
       <div className="grid grid-cols-4 items-center gap-4">
         <Label htmlFor="quantite_ressource" className="text-right">
@@ -99,9 +105,21 @@ export function FormModifRess({ id_ress }) {
           type="number"
           id="quantite_ressource"
           value={formData.quantite_ressource}
-          onChange={handleInputChange}
+          onChange={(e) => handleInputChange({ id: "quantite_ressource", value: e.target.value })}
           className="col-span-3"
         />
+      </div>
+      <div className="grid grid-cols-4 items-center gap-4">
+        <Label htmlFor="type_ressource" className="text-right">
+          Type
+        </Label>
+        <div className="col-span-3">
+          <SelectType
+            id="type_ressource"
+            onChange={(value) => handleInputChange({ id: "type_ressource", value })}
+            value={formData.type_ressource}
+          />
+        </div>
       </div>
       <div className="grid grid-cols-2 items-center gap-4">
         <span>{updateStatus}</span>

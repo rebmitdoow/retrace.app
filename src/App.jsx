@@ -6,6 +6,7 @@ import TableRessources from "./pages/TableRessources.jsx";
 import { HalfMoon, SunLight, InfoCircle } from "iconoir-react";
 import Layout from "./components/layout";
 import TableProjets from "./pages/TableProjets";
+import AddRessource from "./pages/AddRessource";
 
 function App() {
   const [isDarkMode, setIsDarkMode] = useState(() => localStorage.getItem("theme") === "dark");
@@ -26,6 +27,7 @@ function App() {
       <Layout>
         <Router>
           <Routes>
+            <Route path="ajouter" element={<AddRessource />} />
             <Route path="ressources">
               <Route path=":batId" element={<TableRessources />} />
             </Route>

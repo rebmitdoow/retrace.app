@@ -26,10 +26,29 @@ export const fetchAllBat = async () => {
   }
 };
 
+export const fetchAllTypes = async () => {
+  try {
+    const response = await mongodb.get("/types");
+    return response;
+  } catch (error) {
+    console.error("Error fetching items:", error);
+    throw error;
+  }
+};
+
+export const getUnitType = async (id) => {
+  try {
+    const response = await mongodb.get(`/typeunit/${id}`);
+    return response.data.unite_type;
+  } catch (error) {
+    console.error("Error fetching items:", error);
+    throw error;
+  }
+};
+
 export const fetchRessFromBat = async (batiment_id) => {
   try {
     const response = await mongodb.get(`/itemsFromBat/${batiment_id}`);
-    /*  console.log("response", response.data); */
     return response.data;
   } catch (error) {
     console.error("Error fetching items:", error);
@@ -58,8 +77,6 @@ export const getRessourceById = async (ressource_id) => {
 };
 
 export const updateBatiment = async (id, bat_data) => {
-  /* console.log("id in API", id);
-  console.log("bat_data in API", bat_data); */
   try {
     const response = await mongodb.put(`/batiment/${id}`, bat_data);
     return response.data;
@@ -70,8 +87,6 @@ export const updateBatiment = async (id, bat_data) => {
 };
 
 export const updateRessource = async (id, ress_data) => {
-  /* console.log("id in API", id);
-  console.log("bat_data in API", ress_data); */
   try {
     const response = await mongodb.put(`/ressource/${id}`, ress_data);
     return response.data;
